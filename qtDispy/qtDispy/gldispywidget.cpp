@@ -9,7 +9,7 @@ glDispyWidget::glDispyWidget(QWidget *parent) :
     QGLWidget(parent)
 {
     //initialise X display
-    xDisplay = XOpenDisplay("localhost:0.0");
+    xDisplay = XOpenDisplay(":0");
     screenNumber = DefaultScreen(xDisplay);
     rootWindow = RootWindow(xDisplay, screenNumber);
 
@@ -117,6 +117,14 @@ void glDispyWidget::paintGL() {
     //see http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Creating_a_texture_from_a_Pixmap
     //generate a texture from the Ximage
     glBindTexture(GL_TEXTURE_2D, texture);
+    /*GL_EXT extension test
+    glXBindTexImageEXT (display, glxpixmap, GLX_FRONT_LEFT_EXT, NULL);
+     */
+
+
+
+    /*working code
+    */
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, xDisplayWidth,xDisplayHeight, 0, GL_BGRA, GL_UNSIGNED_BYTE, (void*)(&(img->data[0])));
